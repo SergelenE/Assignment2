@@ -29,6 +29,37 @@ window.addEventListener("scroll", scrollDetect);
 // // Open a GET request and use data from ../data/company_intro.json
 // // Send the request
 
+let url = "data/company_intro.json";
+
+let xhr = new XMLHttpRequest();
+xhr.onload = function () {
+  if (xhr.readyState === 4) {
+    const data1 = JSON.parse(xhr.responseText);
+    generateHTML(data1.data);
+  }
+};
+
+xhr.open("GET", url);
+xhr.send();
+
+function generateHTML(value) {
+  const iishee = document.querySelector(".iisheehine");
+
+  value.map((e) => {
+    iishee.innerHTML += ` 
+  <div class="col-12 col-sm-4">
+    <div class="card card-introduction">
+      <img src="${e.thumbnail}" class="card-img-top" alt="...">
+      <div>
+        <h5 class="card-title">${e.title}</h5>
+        <p class="card-text">${e.content}</p>
+        <a class="learnmore" href="#">Learn more</a>
+      </div>
+    </div>
+  </div>`;
+  });
+}
+
 // /*  Add subscription email action. When subscription POST request is successful,
 //     change the email element and subscribe button into "Your subscription is successful" Text.
 //     POST request should be done by AJAX request. We need a POST request end point for subscription email.
